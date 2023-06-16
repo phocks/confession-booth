@@ -1,11 +1,43 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
+		<input type="file" accept="audio/*" capture id="recorder" />
+		<audio id="player" controls></audio>
+		<script>
+			const recorder = document.getElementById("recorder");
+			const player = document.getElementById("player");
+
+			recorder.addEventListener("change", function (e) {
+				const file = e.target.files[0];
+				const url = URL.createObjectURL(file);
+				// Do something with the audio file.
+				player.src = url;
+
+				console.log(file);
+
+				const formData = new FormData();
+
+				formData.append("file", file);
+
+				fetch("https://confessions.phocks.org/upload", {
+					//  fetch("http://localhost:5000/upload", {
+					method: "POST",
+					body: formData,
+					headers: {
+						// "Content-Type": "multipart/form-data",
+					},
+				})
+					.then((res) => console.log(res))
+					.catch((err) => ("Error occured", err));
+			});
+		</script>
+	</main>
+
+	<!-- <h1>Welcome to <span class="text-gradient">Astro</span></h1>
 		<p class="instructions">
 			To get started, open the directory <code>src/pages</code> in your project.<br />
 			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
@@ -31,8 +63,7 @@ import Card from '../components/Card.astro';
 				title="Community"
 				body="Come say hi to our amazing Discord community. ❤️"
 			/>
-		</ul>
-	</main>
+		</ul> -->
 </Layout>
 
 <style>
