@@ -5,7 +5,11 @@ import Card from "../components/Card.astro";
 
 <Layout title="Welcome to Astro.">
 	<main>
+		
+		<label for="file" class="btn">Send your audio: </label>
 		<input type="file" accept="audio/*" capture id="recorder" />
+		
+
 		<audio id="player" controls></audio>
 		<script>
 			const recorder = document.getElementById("recorder");
