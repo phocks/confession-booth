@@ -29,6 +29,7 @@ import Layout from "../layouts/Layout.astro";
 		<button
 			class="send-audio-button"
 			style=""
+			id="send-audio-button"
 			onclick="
 			document.getElementById('recorder').click()
 			"
@@ -39,7 +40,7 @@ import Layout from "../layouts/Layout.astro";
 			<em
 				>Just an experiment for now from <a href="https://bne.social/@phocks"
 					>@phocks@bne.social</a
-				>
+				> on Mastodon.
 			</em>
 		</p>
 		<!-- <input type="file" id="getFile" style="display:none" /> -->
@@ -53,6 +54,10 @@ import Layout from "../layouts/Layout.astro";
 				const url = URL.createObjectURL(file);
 				// Do something with the audio file.
 				// player.src = url;
+
+				// Change button text
+				const button = document.getElementById("send-audio-button");
+				button.innerHTML = "Sending audio...";
 
 				console.log(file);
 
@@ -68,8 +73,14 @@ import Layout from "../layouts/Layout.astro";
 						// "Content-Type": "multipart/form-data",
 					},
 				})
-					.then((res) => console.log(res))
-					.catch((err) => ("Error occured", err));
+					.then((res) => {
+						console.log(res);
+						button.innerHTML = "Audio sent...";
+					})
+					.catch((err) => {
+						button.innerHTML = "Error :(";
+						console.error("Error occured", err);
+					});
 			});
 		</script>
 	</main>
