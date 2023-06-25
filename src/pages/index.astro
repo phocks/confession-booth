@@ -2,6 +2,91 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
+<script>
+	// const handleSuccess = async function (stream) {
+	// 	const context = new AudioContext();
+	// 	const source = context.createMediaStreamSource(stream);
+
+	// 	await context.audioWorklet.addModule("processor.js");
+	// 	const worklet = new AudioWorkletNode(context, "worklet-processor");
+
+	// 	source.connect(worklet);
+	// 	worklet.connect(context.destination);
+	// };
+
+	// navigator.mediaDevices
+	// 	.getUserMedia({ audio: true, video: false })
+	// 	.then(handleSuccess);
+
+	// ---------------------------------------------
+
+	// const player: any = document.getElementById("player");
+
+	// const handleSuccess = function (stream) {
+	// 	if (window.URL) {
+	// 		player.srcObject = stream;
+	// 	} else {
+	// 		player.src = stream;
+	// 	}
+	// };
+
+	// navigator.mediaDevices
+	// 	.getUserMedia({ audio: true, video: false })
+	// 	.then(handleSuccess);
+
+	// navigator.mediaDevices.enumerateDevices().then((devices) => {
+	// 	devices = devices.filter((d) => d.kind === "audioinput");
+
+	// 	console.log(devices);
+
+	// 	navigator.mediaDevices.getUserMedia({
+	// 		audio: {
+	// 			deviceId: devices[0].deviceId,
+	// 		},
+	// 	});
+	// });
+
+	// ---------------------------------------------
+
+	const downloadLink = document.getElementById("download");
+	const stopButton = document.getElementById("stop");
+
+	const handleSuccess = function (stream) {
+		const options = { mimeType: "audio/webm" };
+		const recordedChunks = [];
+		const mediaRecorder = new MediaRecorder(stream, options);
+
+		mediaRecorder.addEventListener("dataavailable", function (e) {
+			if (e.data.size > 0) recordedChunks.push(e.data);
+		});
+
+		mediaRecorder.addEventListener("stop", function () {
+			downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+			downloadLink.download = "acetest.wav";
+		});
+
+		stopButton.addEventListener("click", function () {
+			mediaRecorder.stop();
+		});
+
+		mediaRecorder.start();
+	};
+
+	navigator.mediaDevices
+		.getUserMedia({ audio: true, video: false })
+		.then(handleSuccess);
+
+	// ---------------------------------------------
+
+	// navigator.permissions.query({ name: "microphone" }).then(function (result) {
+	// 	if (result.state == "granted") {
+	// 	} else if (result.state == "prompt") {
+	// 	} else if (result.state == "denied") {
+	// 	}
+	// 	result.onchange = function () {};
+	// });
+</script>
+
 <Layout title="Confessr - a place to share">
 	<main>
 		<h1 class="text-gradient">Hello.</h1>
@@ -18,7 +103,12 @@ import Layout from "../layouts/Layout.astro";
 			to the server and may appear on this page in the future.
 		</p>
 
-		<input
+		<audio id="player" controls></audio>
+
+		<a id="download">Download</a>
+		<button id="stop">Stop</button>
+
+		<!-- <input
 			type="file"
 			accept="audio/*"
 			capture
@@ -34,7 +124,7 @@ import Layout from "../layouts/Layout.astro";
 			document.getElementById('recorder').click()
 			"
 			>Send your audio...</button
-		>
+		> -->
 
 		<p>
 			<em
@@ -43,9 +133,8 @@ import Layout from "../layouts/Layout.astro";
 				> on Mastodon.
 			</em>
 		</p>
-		<!-- <input type="file" id="getFile" style="display:none" /> -->
-		<!-- <audio id="player" controls></audio> -->
-		<script>
+
+		<!-- <script>
 			const recorder = document.getElementById("recorder");
 			// const player = document.getElementById("player");
 
@@ -82,7 +171,7 @@ import Layout from "../layouts/Layout.astro";
 						console.error("Error occured", err);
 					});
 			});
-		</script>
+		</script> -->
 	</main>
 </Layout>
 
