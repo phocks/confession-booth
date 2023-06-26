@@ -85,11 +85,36 @@
           soundClips.appendChild(clipContainer);
 
           audio.controls = true;
-          const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+          const blob = new Blob(chunks, { type: "audio/webm; codecs=opus" });
           chunks = [];
           const audioURL = window.URL.createObjectURL(blob);
           audio.src = audioURL;
           console.log("recorder stopped");
+
+          // Send blob to server
+          const formData = new FormData();
+
+          formData.append("file", blob, "audio.webm");
+
+          
+          fetch("https://confessions.phocks.org/upload", {
+            //  fetch("http://localhost:5000/upload", {
+            method: "POST",
+            body: formData,
+            headers: {
+              // NOTE: Browsers will automatically set the Content-Type header for you
+              // So this is not needed
+              // "Content-Type": "multipart/form-data",
+            },
+          })
+            .then((res) => {
+              console.log(res);
+              // button.innerHTML = "Audio sent...";
+            })
+            .catch((err) => {
+              // button.innerHTML = "Error :(";
+              console.error("Error occured", err);
+            });
 
           deleteButton.onclick = function (e: any) {
             e.target.closest(".clip").remove();
