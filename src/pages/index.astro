@@ -1,6 +1,96 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Recorder from "../components/Recorder.svelte";
 ---
+
+<Layout title="Confessr - a place to share">
+	<main>
+		<Recorder client:idle />
+		<!-- <h1 class="text-gradient">Hello.</h1>
+
+		<p>
+			This is a simple early experiment. Click the button below and your phone
+			audio recorder should open up (if you're on mobile, otherwise send a
+			pre-recorded sound file from your desktop).
+		</p>
+
+		<p>
+			Record whatever you want, a confession, a secret, a story, whatever you
+			want to get off your chest (keep it anonymous). It will then be uploaded
+			to the server and may appear on this page in the future.
+		</p>
+
+		<audio id="player" controls></audio>
+
+		<a id="download">Download</a>
+		<button id="stop">Stop</button> -->
+
+		<!-- <input
+			type="file"
+			accept="audio/*"
+			capture
+			id="recorder"
+			style="display:none"
+		/>
+
+		<button
+			class="send-audio-button"
+			style=""
+			id="send-audio-button"
+			onclick="
+			document.getElementById('recorder').click()
+			"
+			>Send your audio...</button
+		> -->
+
+		<!-- <p>
+			<em
+				>Just an experiment for now from <a href="https://bne.social/@phocks"
+					>@phocks@bne.social</a
+				> on Mastodon.
+			</em>
+		</p> -->
+
+		<!-- <script>
+			const recorder = document.getElementById("recorder");
+			// const player = document.getElementById("player");
+
+			recorder.addEventListener("change", function (e) {
+				const file = e.target.files[0];
+				const url = URL.createObjectURL(file);
+				// Do something with the audio file.
+				// player.src = url;
+
+				// Change button text
+				const button = document.getElementById("send-audio-button");
+				button.innerHTML = "Sending audio...";
+
+				console.log(file);
+
+				const formData = new FormData();
+
+				formData.append("file", file);
+
+				fetch("https://confessions.phocks.org/upload", {
+					//  fetch("http://localhost:5000/upload", {
+					method: "POST",
+					body: formData,
+					headers: {
+						// "Content-Type": "multipart/form-data",
+					},
+				})
+					.then((res) => {
+						console.log(res);
+						button.innerHTML = "Audio sent...";
+					})
+					.catch((err) => {
+						button.innerHTML = "Error :(";
+						console.error("Error occured", err);
+					});
+			});
+		</script> -->
+	</main>
+</Layout>
 
 <script>
 	// const handleSuccess = async function (stream) {
@@ -48,33 +138,33 @@ import Layout from "../layouts/Layout.astro";
 
 	// ---------------------------------------------
 
-	const downloadLink = document.getElementById("download");
-	const stopButton = document.getElementById("stop");
+	// const downloadLink = document.getElementById("download");
+	// const stopButton = document.getElementById("stop");
 
-	const handleSuccess = function (stream) {
-		const options = { mimeType: "audio/webm" };
-		const recordedChunks = [];
-		const mediaRecorder = new MediaRecorder(stream, options);
+	// const handleSuccess = function (stream) {
+	// 	const options = { mimeType: "audio/webm" };
+	// 	const recordedChunks = [];
+	// 	const mediaRecorder = new MediaRecorder(stream, options);
 
-		mediaRecorder.addEventListener("dataavailable", function (e) {
-			if (e.data.size > 0) recordedChunks.push(e.data);
-		});
+	// 	mediaRecorder.addEventListener("dataavailable", function (e) {
+	// 		if (e.data.size > 0) recordedChunks.push(e.data);
+	// 	});
 
-		mediaRecorder.addEventListener("stop", function () {
-			downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
-			downloadLink.download = "acetest.wav";
-		});
+	// 	mediaRecorder.addEventListener("stop", function () {
+	// 		downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+	// 		downloadLink.download = "acetest.wav";
+	// 	});
 
-		stopButton.addEventListener("click", function () {
-			mediaRecorder.stop();
-		});
+	// 	stopButton.addEventListener("click", function () {
+	// 		mediaRecorder.stop();
+	// 	});
 
-		mediaRecorder.start();
-	};
+	// 	mediaRecorder.start();
+	// };
 
-	navigator.mediaDevices
-		.getUserMedia({ audio: true, video: false })
-		.then(handleSuccess);
+	// navigator.mediaDevices
+	// 	.getUserMedia({ audio: true, video: false })
+	// 	.then(handleSuccess);
 
 	// ---------------------------------------------
 
@@ -86,94 +176,6 @@ import Layout from "../layouts/Layout.astro";
 	// 	result.onchange = function () {};
 	// });
 </script>
-
-<Layout title="Confessr - a place to share">
-	<main>
-		<h1 class="text-gradient">Hello.</h1>
-
-		<p>
-			This is a simple early experiment. Click the button below and your phone
-			audio recorder should open up (if you're on mobile, otherwise send a
-			pre-recorded sound file from your desktop).
-		</p>
-
-		<p>
-			Record whatever you want, a confession, a secret, a story, whatever you
-			want to get off your chest (keep it anonymous). It will then be uploaded
-			to the server and may appear on this page in the future.
-		</p>
-
-		<audio id="player" controls></audio>
-
-		<a id="download">Download</a>
-		<button id="stop">Stop</button>
-
-		<!-- <input
-			type="file"
-			accept="audio/*"
-			capture
-			id="recorder"
-			style="display:none"
-		/>
-
-		<button
-			class="send-audio-button"
-			style=""
-			id="send-audio-button"
-			onclick="
-			document.getElementById('recorder').click()
-			"
-			>Send your audio...</button
-		> -->
-
-		<p>
-			<em
-				>Just an experiment for now from <a href="https://bne.social/@phocks"
-					>@phocks@bne.social</a
-				> on Mastodon.
-			</em>
-		</p>
-
-		<!-- <script>
-			const recorder = document.getElementById("recorder");
-			// const player = document.getElementById("player");
-
-			recorder.addEventListener("change", function (e) {
-				const file = e.target.files[0];
-				const url = URL.createObjectURL(file);
-				// Do something with the audio file.
-				// player.src = url;
-
-				// Change button text
-				const button = document.getElementById("send-audio-button");
-				button.innerHTML = "Sending audio...";
-
-				console.log(file);
-
-				const formData = new FormData();
-
-				formData.append("file", file);
-
-				fetch("https://confessions.phocks.org/upload", {
-					//  fetch("http://localhost:5000/upload", {
-					method: "POST",
-					body: formData,
-					headers: {
-						// "Content-Type": "multipart/form-data",
-					},
-				})
-					.then((res) => {
-						console.log(res);
-						button.innerHTML = "Audio sent...";
-					})
-					.catch((err) => {
-						button.innerHTML = "Error :(";
-						console.error("Error occured", err);
-					});
-			});
-		</script> -->
-	</main>
-</Layout>
 
 <style>
 	main {
