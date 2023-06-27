@@ -5,7 +5,32 @@ import Recorder from "../components/Recorder.svelte";
 
 <Layout title="Confessr - a place to share">
 	<main>
+		<h1 class="text-gradient">Hi there.</h1>
+
+		<p>
+			This is a simple early experiment. Use the buttons below to request access
+			to your microphone and then record whatever you want, a confession, a
+			secret, a story, whatever you want to get off your chest (keep it
+			anonymous).
+		</p>
+
+		<p>
+			Once you hit stop, your recorded audio will <strong>1.</strong> appear here
+			on the page so you can listen back to it (no one else will see it) and <strong
+				>2.</strong
+			> be uploaded to my server and I'll take a listen when I can.
+		</p>
+
 		<Recorder client:idle />
+
+		<p>
+			<em
+				>Just an experiment for now from <a href="https://bne.social/@phocks"
+					>@phocks@bne.social</a
+				> on Mastodon. Note: any recorded audio may be used, at a later date but
+				of course it'll remain anonymous, etc.
+			</em>
+		</p>
 		<!-- <h1 class="text-gradient">Hello.</h1>
 
 		<p>

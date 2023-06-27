@@ -13,6 +13,7 @@
     "@astrojs/svelte": "^3.0.0",
     "@astrojs/vercel": "^3.5.0",
     "astro": "^2.7.0",
+    "sass": "^1.63.6",
     "svelte": "^3.59.2"
   }
 }
